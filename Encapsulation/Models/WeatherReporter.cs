@@ -1,63 +1,56 @@
-﻿using System;
-namespace Encapsulation.Models
+﻿namespace Encapsulation.Models
 {
     public class WeatherReporter
     {
-        public string Location;
-        public double Temperature;
+        private readonly string _location;
+        private readonly double _celsius;
 
-        public WeatherReporter(string location, double temperature)
+        public WeatherReporter(string location, double celsius)
         {
-            Location = location;
-            Temperature = temperature;
+            _location = location;
+            _celsius = celsius;
         }
 
-        public string Print()
+        public string DisplayWeather()
         {
-            double newTemp = (9.0 / 5.0) * Temperature + 32;
-            return $"I am in {Location} and it is {Check1()}. {Check2()}. The temperature in Fahrenheit is {newTemp}.";
+            return $"I am in {_location} and it is {DisplayLocationWeather()}. {DisplayTemperatureWeather()}. The temperature in Fahrenheit is {ConvertCelsiusToFahrenheit(_celsius)}.";
         }
 
-        public string Check1()
+        private double ConvertCelsiusToFahrenheit(double _celsius)
         {
-            if (Location == "London")
-            {
-
-                return "🌦";
-
-            }
-            else if (Location == "California")
-            {
-
-                return "🌅";
-
-            }
-            else if (Location == "Cape Town")
-            {
-
-                return "🌤";
-
-            }
-            return "🔆";
+            return ((9.0 / 5.0) * _celsius + 32);
         }
 
-        public string Check2()
+        private string DisplayLocationWeather()
         {
-            if (Temperature > 30)
+            switch (_location)
             {
-
-                return "It's too hot 🥵!";
-
+                case ("London"):
+                    return "🌦";
+                case ("California"):
+                    return "🌅";
+                case ("Cape Town"):
+                    return "🌤";
+                default:
+                    return "🔆";
             }
-            else if (Temperature < 10)
-            {
-
-                return "It's too cold 🥶!";
-
-            }
-            return "Ahhh...it's just right 😊!";
         }
 
+        private string DisplayTemperatureWeather()
+        {
+            const int HighTemp = 30;
+            const int LowTemp = 10;
+
+            switch (_celsius)
+            {
+                case (> HighTemp):
+                    return "It's too hot 🥵!";
+                case (< LowTemp):
+                    return "It's too cold 🥶!";
+                default:
+                    return "Ahhh...it's just right 😊!";
+            }
+        }
     }
 }
 
